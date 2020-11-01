@@ -10,6 +10,12 @@
 #include "RF24_config.h"
 #include "RF24.h"
 
+#ifdef SPI_SERCOM
+	#include <SPI.h>
+	#include "wiring_private.h" // for pinPeripheral() function
+
+	SPIClass _SPI(&SERCOM, SERCOM_MISO_PIN, SERCOM_SCK_PIN, SERCOM_MOSI_PIN, SERCOM_TX_PAD, SERCOM_RX_PAD);
+#endif
 
 /****************************************************************************/
 
@@ -615,6 +621,14 @@ bool RF24::begin(void)
         pinMode(csn_pin, OUTPUT);
       }
       _SPI.begin();
+
+	#ifdef SPI_SERCOM
+		// initialize the sercom pins being used by rf24
+		pinPeripheral(SERCOM_MISO_PIN, SERCOM_MISO_MODE);
+		pinPeripheral(SERCOM_MOSI_PIN, SERCOM_MOSI_MODE);
+		pinPeripheral(SERCOM_SCK_PIN,  SERCOM_SCK_MODE);
+	#endif
+
       ce(LOW);
       csn(HIGH);
       #if defined(__ARDUINO_X86__)
