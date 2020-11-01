@@ -22,6 +22,7 @@
 #define FAILURE_HANDLING
 //#define SERIAL_DEBUG
 //#define MINIMAL
+#define SPI_SERCOM  // Require arduino with sercom support like Samd processors
 //#define SPI_UART  // Requires library from https://github.com/TMRh20/Sketches/tree/master/SPI_UART
 //#define SOFTSPI   // Requires library from https://github.com/greiman/DigitalIO
   
@@ -102,7 +103,27 @@
 
       #else // !defined (__arm__) || !defined (SPI_UART)
         #include <SPI.h>
-        #define _SPI SPI
+
+		#ifdef SPI_SERCOM
+			// define sercom and pins to use
+			#define SERCOM				sercom5
+			#define SERCOM_MISO_PIN		25
+			#define SERCOM_MOSI_PIN		30
+			#define SERCOM_SCK_PIN		31
+
+			#define SERCOM_TX_PAD		SPI_PAD_2_SCK_3
+			#define SERCOM_RX_PAD		SERCOM_RX_PAD_1
+
+      	  	// are PIO_SERCOM or PIO_SERCOM_ALT
+      	  	// check device pin definitions
+			#define SERCOM_MISO_MODE	PIO_SERCOM_ALT
+			#define SERCOM_MOSI_MODE	PIO_SERCOM_ALT
+			#define SERCOM_SCK_MODE		PIO_SERCOM_ALT
+
+		#else
+      	  	//defaults to arduino spi port
+			#define _SPI SPI
+		#endif
 
       #endif // !defined (__arm__) || !defined (SPI_UART)
     #elif !defined(__arm__) && !defined (__ARDUINO_X86__)
