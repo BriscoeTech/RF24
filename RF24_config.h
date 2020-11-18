@@ -107,9 +107,21 @@
 		#ifdef SPI_SERCOM
 			// define sercom and pins to use
 			#define SERCOM				sercom5
-			#define SERCOM_MISO_PIN		25
-			#define SERCOM_MOSI_PIN		30
-			#define SERCOM_SCK_PIN		31
+
+      	  	// adafruit feather
+			//#define SERCOM_MISO_PIN		25 //PB03
+			//#define SERCOM_MOSI_PIN		30 //PB22
+			//#define SERCOM_SCK_PIN		31 //PB23
+
+			// sparkfun dev - custom
+			//#define SERCOM_MISO_PIN		44 //PB03
+			//#define SERCOM_MOSI_PIN		30 //PB22
+			//#define SERCOM_SCK_PIN		31 //PB23
+
+			// adafruit metro m0
+			#define SERCOM_MISO_PIN		36 //PB03
+			#define SERCOM_MOSI_PIN		37 //PB22
+			#define SERCOM_SCK_PIN		38 //PB23
 
 			#define SERCOM_TX_PAD		SPI_PAD_2_SCK_3
 			#define SERCOM_RX_PAD		SERCOM_RX_PAD_1
